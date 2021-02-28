@@ -1,11 +1,11 @@
 ext.library = [
-    min_sdk: 19,
-    compile_sdk: 29,
+    min_sdk: 26,
+    compile_sdk: 30,
 
-    publish_group: "com.afollestad",
+    publish_group: "de.owahu",
     publish_version: "0.1.0",
     publish_version_code: 1,
 
     description: "(none)",
-    website: "https://github.com/afollestad/library-template-android"
+    website: "https://github.com/Freezor/KCountries"
 ]

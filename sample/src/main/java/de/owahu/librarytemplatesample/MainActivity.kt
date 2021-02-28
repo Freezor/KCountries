@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.afollestad.librarytemplatesample
+package de.owahu.librarytemplatesample
 
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import com.afollestad.librarytemplate.Greeter
+import de.owahu.kcountries.Greeter
 
 class MainActivity : AppCompatActivity() {
   private val inputView by lazy { findViewById<TextView>(R.id.inputView) }
