@@ -1,39 +1,67 @@
-# Library Template (ANDROID)
+# KCountries
+Template project to create an Android library, which is ready to be published locally and on Bintray.
 
-This repository can be used as a template to create new GitHub repositories for Kotlin/Android libraries.
+## What's in this project template
+- Kotlin 1.3.61
+- KtLint
+- Android Testing setup for both unit and integration tests
+- Library project
+- Example app project which imports the library project
+- `manifest.gradle` which contains library metadata information and common dependencies between library project and demo app project.
 
-### Code Formatting
+## Getting started
+* Fork this project
+* Clone it locally
+* Get you Bintray API key and username. If you don't have it, register on [bintray.com](https://bintray.com). It's free.
+* Put the following in your `local.properties`:
+  ```
+  bintray.apikey=YOUR_API_KEY
+  bintray.user=YOUR_BINTRAY_USERNAME
+  ```
+* Run `./rename` and enter the required information
+* Done! Open `example/build.gradle` from your Android Studio and start writing your next awesome library!
 
-```gradle
-./gradlew spotlessApply
+## Release
+You can release the library:
+- **locally**: `./release local`. This is going to create a `releases` directory which can be used as a Maven Repository.
+- **publicly on Bintray**: `./release`
+    > From bintray.com, you can then link your library on jCenter and push it also to Maven Central, but I'm not going to cover that here, as there are plenty of examples on the Internet on how to do that.
+
+## Using the library
+Once the library is published to bintray, you can use it like this:
+
+```groovy
+implementation 'owahu:kcountries:1.0.0'
 ```
 
-*Make sure you update [spotless.license.kt](spotless.license.kt) and [LICENSE.md](LICENSE.md) to reflect your own license and author info!* Other settings for this plugin can be tweaked in [gradle/spotless_plugin_config.gradle](gradle/spotless_plugin_config.gradle).
+### Using your GitHub Repository as a Maven Repository
+Perform `./release local` and then push the `releases` directory. In your dependencies, add this to your repositories section:
 
-### Check if Dependencies Are Up-to-Date
+```groovy
+maven {
+    content { includeGroup "owahu" }
+    credentials(HttpHeaderCredentials.class) {
+        name = "Authorization"
+        value = "Bearer ${ System.getenv('GITHUB_TOKEN') }"
+    }
+    authentication { register("header", HttpHeaderAuthentication.class) }
+    url "https://raw.githubusercontent.com/Freezor/KCountries/master/releases"
+}
+```
 
-```gradle
+You need to add an environment variable in your `.bash_profile` for the github repo to work:
+
+```
+export GITHUB_TOKEN="YOUR_TOKEN"
+```
+
+And then `source .bash_profile`
+
+## Dependency Updates
+Keeping dependencies always up to date can be annoying. To ease things, a gradle plugin has been added which automatically checks for new versions. Just run:
+
+```
 ./gradlew dependencyUpdates
 ```
 
-Settings can be tweaked for this plugin within [gradle/versions_plugin_config.gradle](gradle/versions_plugin_config.gradle).
-
-### Publishing the Library to Bintray -> jCenter
-
-This repository is setup to automatically publish to Bintray when you create a new release from
-GitHub.
-
-But there are some pre-requisites:
-
-1. Update [library_info.gradle](library_info.gradle) to contain your library's information (group, description, etc.).
-2. From your GitHub repository settings, add **secrets** for `BINTRAY_ORG`, `BINTRAY_USER`, and `BINTRAY_API_KEY`. 
-These will be used by the `Bintray Release` GitHub Actions workflow. 
-3. With each release, update the version name and code in [library_info.gradle](library_info.gradle#L6-L8).
-4. Once you've deployed to Bintray for the first time, you can link your Bintray repository to jCenter so 
-people can depend on your library from Android projects _without_ having to add any special Maven repositories.
-
-How does releasing work?
-
-1. **Automatically** when you create a [Release](https://help.github.com/en/github/administering-a-repository/releasing-projects-on-github) 
-in your GitHub repository.
-2. OR if you set the three environment variables mentioned above, and invoke `./gradlew bintrayUpload`.
+And you will see a complete report of actual and new dependencies versions.

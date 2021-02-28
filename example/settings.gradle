@@ -1,0 +1,3 @@
+include ':app'
+include ':kcountries'
+project(':kcountries').projectDir = file('../kcountries')
