@@ -16,6 +16,6 @@ allprojects {
 2. Add the dependency
 ```
 dependencies {
-	        implementation 'com.github.Freezor:KCountries:Tag'
+	        implementation 'com.github.Freezor:KCountries:$NewestVersion'
 	}
 ```
