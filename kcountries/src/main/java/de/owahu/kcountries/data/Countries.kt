@@ -1,5 +1,5 @@
 package de.owahu.kcountries.data
 
-data class Country(
-    val countries: List<CountryX>
+data class Countries(
+    val countries: List<Country>
 )
